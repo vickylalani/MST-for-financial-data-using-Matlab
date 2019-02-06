@@ -1,0 +1,22 @@
+Matlab Codes for generating MST graphs for a time window of 100 after every 50 rows
+for day = [1:50:8726];
+
+Returns_temp = Returns(day:day+99,:);
+%Returns_temp = Returns(day,:);
+Corr_mat = corrcoef(Returns_temp);
+Dist_mat = sqrt(2*(1-Corr_mat));
+%surf
+G = graph(Dist_mat, Stock_names);
+% plot(G)
+MST = minspantree(G, 'method', 'sparse');
+% formatOut = 'd-mmm-y';
+date_start = datestr(fints_obj.dates(day));
+% date_end = datestr(fints_obj.dates(day+99));
+% d = strcat(date_start);
+% h = figure('units','normalized','outerposition',[0 0 1 1]);
+% plot(MST);
+%saveas(h,sprintf('Fig%d.png',day));
+% saveas(h,d,'png');
+norm_len_edges = mean(G.Edges.Weight)
+str_norm = {date_start,norm_len_edges}
+end
