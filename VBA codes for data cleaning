@@ -1,0 +1,32 @@
+Sub Macro1()
+'
+' Macro1 Macro
+
+Dim i As Range
+Dim rng As Range
+Dim key As Range
+Dim sht As String
+
+sht = "1982-1997"
+
+last = Sheets(sht).Cells(Rows.Count, "A").End(xlUp).Row
+Set key = Worksheets("Key").Range("A1:A167")
+Set rng = Sheets(sht).Range("A1:C" & last)
+
+For Each i In key
+    With rng
+        .AutoFilter
+        .AutoFilter Field:=1, Criteria1:=i.Value
+        .SpecialCells(xlCellTypeVisible).Copy
+    Sheets.Add(After:=Sheets(Sheets.Count)).Name = i.Value
+    ActiveSheet.Paste
+    End With
+    Sheets(sht).Select
+Next i
+End Sub
+
+'Sheets.Add After:=ActiveSheet
+'Sheets.Name = Range(Key!Ai)
+'Range("A1").Select
+'Range(Selection, Selection.End(xlDown)).Select
+'Selection.Copy
