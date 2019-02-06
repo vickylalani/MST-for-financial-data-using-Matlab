@@ -1,0 +1,29 @@
+Sub Macro2()
+
+Dim i As Range
+Dim rng As Range
+Dim key As Range
+Dim sht As String
+Dim temp As String
+
+sht = "1998-2016"
+
+last = Sheets(sht).Cells(Rows.Count, "A").End(xlUp).Row
+Set key = Worksheets("Key").Range("A1:A167")
+Set rng = Sheets(sht).Range("A1:C" & last)
+
+For Each i In key
+    temp = i
+    With rng
+        .AutoFilter
+        .AutoFilter Field:=1, Criteria1:=i.Value
+        .SpecialCells(xlCellTypeVisible).Copy
+    Sheets(temp).Activate
+    Range("A1").End(xlDown).Select
+    ActiveCell.Offset(1, 0).Select
+    ActiveSheet.Paste
+    End With
+    Sheets(sht).Select
+Next i
+
+End Sub
